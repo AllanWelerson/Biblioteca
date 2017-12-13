@@ -85,4 +85,41 @@ public class ClienteDAO {
     }
     
     
+    public List<Cliente> readForDesc(String desc){
+                
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String SQL = "SELECT * FROM clientes where nome_cliente LIKE ? or cpf_cliente LIKE ? or status_cliente LIKE ? ";
+        
+        List<Cliente> clientes = new ArrayList<>();
+        
+        try{
+            
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, "%" + desc + "%");
+            stmt.setString(2, "%" + desc + "%");
+            stmt.setString(3, "%" + desc + "%");
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Cliente cliente = new Cliente();
+                cliente.setNome(rs.getString("nome_cliente"));
+                cliente.setCpf(rs.getString("cpf_cliente"));
+                cliente.setLogin(rs.getString("login_cliente"));
+                cliente.setSenha(rs.getString("senha_cliente"));
+                cliente.setStatus(rs.getString("status_cliente"));
+                cliente.setTelefone(rs.getString("telefone_cliente"));
+                clientes.add(cliente);
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("Erro " + ex);
+        }
+        
+        
+        return clientes;
+    }
+    
+    
 }

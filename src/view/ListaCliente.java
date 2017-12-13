@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.sun.glass.events.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.bean.Cliente;
@@ -46,6 +47,8 @@ public class ListaCliente extends javax.swing.JDialog {
         txtStatus = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jbEditarFunc = new javax.swing.JButton();
+        txtPesquisa = new javax.swing.JTextField();
+        jbPesquisa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
@@ -89,14 +92,28 @@ public class ListaCliente extends javax.swing.JDialog {
             }
         });
 
+        txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesquisaActionPerformed(evt);
+            }
+        });
+        txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyPressed(evt);
+            }
+        });
+
+        jbPesquisa.setText("Pesquisar");
+        jbPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPesquisaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(216, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -115,21 +132,35 @@ public class ListaCliente extends javax.swing.JDialog {
                             .addComponent(jLabel8))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jLabel1)))
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbPesquisa)
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbPesquisa))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -173,6 +204,37 @@ public class ListaCliente extends javax.swing.JDialog {
         
     }//GEN-LAST:event_jbEditarFuncActionPerformed
 
+    private void jbPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisaActionPerformed
+        
+        readTableForDesc(txtPesquisa.getText());
+        
+    }//GEN-LAST:event_jbPesquisaActionPerformed
+
+    private void txtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_txtPesquisaActionPerformed
+
+    private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
+        
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            readTableForDesc(txtPesquisa.getText());
+        }
+    }//GEN-LAST:event_txtPesquisaKeyPressed
+
+    
+    public void readTableForDesc(String desc){
+        
+        DefaultTableModel modelo = (DefaultTableModel) jtCliente.getModel();
+        modelo.setNumRows(0);
+        ClienteDAO Cdao = new ClienteDAO();
+        
+        for(Cliente c: Cdao.readForDesc(desc)){
+            modelo.addRow(new Object[]{c.getNome(),c.getLogin(),c.getStatus(),c.getTelefone(),c.getCpf()});
+        }
+        
+    }
     
     public void readTable(){
         
@@ -256,9 +318,11 @@ public class ListaCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbEditarFunc;
+    private javax.swing.JButton jbPesquisa;
     private javax.swing.JTable jtCliente;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPesquisa;
     private javax.swing.JTextField txtStatus;
     // End of variables declaration//GEN-END:variables
 }
