@@ -223,7 +223,7 @@ public class CadastrarCliente extends javax.swing.JDialog {
         
         if(verificaCampos()){
             
-        
+            
             
         Cliente cliente = new Cliente();
         cliente.setNome(txtNome.getText());
@@ -234,6 +234,7 @@ public class CadastrarCliente extends javax.swing.JDialog {
         cliente.setStatus((String) txtStatus.getSelectedItem());
         ClienteDAO dao = new ClienteDAO();
        
+        
               
         if(dao.creat(cliente)){
            JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!", "Cadastro!", JOptionPane.PLAIN_MESSAGE);

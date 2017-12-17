@@ -66,6 +66,7 @@ public class ClienteDAO {
             
             while(rs.next()){
                 Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id_cliente"));
                 cliente.setNome(rs.getString("nome_cliente"));
                 cliente.setCpf(rs.getString("cpf_cliente"));
                 cliente.setLogin(rs.getString("login_cliente"));
@@ -104,6 +105,7 @@ public class ClienteDAO {
             
             while(rs.next()){
                 Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id_cliente"));
                 cliente.setNome(rs.getString("nome_cliente"));
                 cliente.setCpf(rs.getString("cpf_cliente"));
                 cliente.setLogin(rs.getString("login_cliente"));
@@ -120,6 +122,45 @@ public class ClienteDAO {
         
         return clientes;
     }
+    
+    
+    public boolean update(Cliente cliente){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        boolean result = false;
+        
+        String SQL = "UPDATE clientes SET "
+                + "nome_cliente = ?,"
+                + "cpf_cliente = ?,"
+                + "telefone_cliente = ?,"
+                + "senha_cliente = ?,"
+                + "login_cliente = ?,"
+                + "status_cliente = ?"
+                + "WHERE id_cliente = ? ";
+        
+        try{
+            
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, cliente.getCpf());
+            stmt.setString(3, cliente.getTelefone());
+            stmt.setString(4, cliente.getSenha());
+            stmt.setString(5, cliente.getLogin());
+            stmt.setString(6, cliente.getStatus());
+            stmt.setInt(7, cliente.getId());
+            stmt.executeUpdate();
+            
+            result = true;
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Erro " + ex);
+        }
+        
+        return result;
+    } 
     
     
 }

@@ -24,7 +24,8 @@ public class ListaCliente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         readTable();
-        desabilitaCampos();
+        txtId.setEnabled(false);
+        //desabilitaCampos();
     }
 
     /**
@@ -44,7 +45,6 @@ public class ListaCliente extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jbEditarFunc = new javax.swing.JButton();
         txtPesquisa = new javax.swing.JTextField();
         jbPesquisa = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -53,9 +53,11 @@ public class ListaCliente extends javax.swing.JDialog {
         txtSenha = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jbEditarCliente = new javax.swing.JButton();
         txtCpf = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
+        txtId = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
@@ -67,17 +69,17 @@ public class ListaCliente extends javax.swing.JDialog {
 
         jtCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Login", "Status", "telefone", "cpf"
+                "Nome", "Login", "Status", "telefone", "cpf", "Id"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -102,13 +104,6 @@ public class ListaCliente extends javax.swing.JDialog {
 
         jLabel8.setText("Telefone");
 
-        jbEditarFunc.setText("Selecionar Edição");
-        jbEditarFunc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEditarFuncActionPerformed(evt);
-            }
-        });
-
         txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPesquisaActionPerformed(evt);
@@ -129,7 +124,7 @@ public class ListaCliente extends javax.swing.JDialog {
 
         jLabel2.setText("Login");
 
-        jLabel3.setText("Senha");
+        jLabel3.setText("Senha Antiga ou Nova");
 
         txtSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +136,12 @@ public class ListaCliente extends javax.swing.JDialog {
 
         txtStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
 
-        jButton1.setText("Salvar Alterações");
+        jbEditarCliente.setText("Salvar Alterações");
+        jbEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEditarClienteActionPerformed(evt);
+            }
+        });
 
         try {
             txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -154,6 +154,8 @@ public class ListaCliente extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+
+        jLabel5.setText("Codigo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -186,9 +188,9 @@ public class ListaCliente extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbEditarFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbEditarCliente))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +208,10 @@ public class ListaCliente extends javax.swing.JDialog {
                                             .addComponent(jLabel2)
                                             .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addGap(44, 44, 44))))
+                        .addGap(44, 44, 44))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,10 +249,12 @@ public class ListaCliente extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbEditarFunc)
-                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbEditarCliente)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -267,18 +274,6 @@ public class ListaCliente extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbEditarFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarFuncActionPerformed
-        
-        
-        if(jtCliente.getSelectedRow() != -1){
-            habilitaCampos();
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Funcionario não selecionado", "Editar Funcionario", JOptionPane.WARNING_MESSAGE);
-          }
-        
-    }//GEN-LAST:event_jbEditarFuncActionPerformed
 
     private void jbPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisaActionPerformed
         
@@ -311,6 +306,40 @@ public class ListaCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
 
+    private void jbEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarClienteActionPerformed
+       
+        
+        //=====================
+        //=====================
+        //=====================
+        
+       if(verificaCampos()){
+           
+           Cliente cliente = new Cliente();
+           cliente.setNome(txtNome.getText());
+           cliente.setCpf(trataCampos(txtCpf.getText()));
+           cliente.setTelefone(trataCampos(txtTelefone.getText()));
+           cliente.setLogin(txtLogin.getText());
+           cliente.setId(Integer.parseInt(txtId.getText()));
+           cliente.setSenha(new String(txtSenha.getPassword()));
+           cliente.setStatus((String)txtStatus.getSelectedItem());
+           
+           System.out.println(cliente.getNome());
+           
+           ClienteDAO dao = new ClienteDAO();
+           if(dao.update(cliente)){
+               JOptionPane.showMessageDialog(null, "Atualizado com sucesso!","Atualizar Cliente", JOptionPane.INFORMATION_MESSAGE);
+               limpaCampos();
+               readTable();
+           }else{
+               JOptionPane.showMessageDialog(null, "Erro ao atualizar","Atualizar Cliente",JOptionPane.ERROR_MESSAGE);
+           }
+           
+       }
+        
+        
+    }//GEN-LAST:event_jbEditarClienteActionPerformed
+
     
     public void readTableForDesc(String desc){
         
@@ -319,7 +348,7 @@ public class ListaCliente extends javax.swing.JDialog {
         ClienteDAO Cdao = new ClienteDAO();
         
         for(Cliente c: Cdao.readForDesc(desc)){
-            modelo.addRow(new Object[]{c.getNome(),c.getLogin(),c.getStatus(),c.getTelefone(),c.getCpf()});
+            modelo.addRow(new Object[]{c.getNome(),c.getLogin(),c.getStatus(),c.getTelefone(),c.getCpf(),c.getId()});
         }
         
     }
@@ -331,7 +360,7 @@ public class ListaCliente extends javax.swing.JDialog {
         ClienteDAO Cdao = new ClienteDAO();
         
         for(Cliente c: Cdao.read()){
-            modelo.addRow(new Object[]{c.getNome(),c.getLogin(),c.getStatus(),c.getTelefone(),c.getCpf()});
+            modelo.addRow(new Object[]{c.getNome(),c.getLogin(),c.getStatus(),c.getTelefone(),c.getCpf(),c.getId()});
         }
         
     }
@@ -343,23 +372,35 @@ public class ListaCliente extends javax.swing.JDialog {
             
             txtNome.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(), 0).toString());
             txtLogin.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(), 1).toString());
+            txtTelefone.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(),3).toString());
+            txtCpf.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(),4).toString());
+            txtId.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(),5).toString());
            
             if((jtCliente.getValueAt(jtCliente.getSelectedRow(),2).toString()).equals("ativo") || 
                  (jtCliente.getValueAt(jtCliente.getSelectedRow(),2).toString()).equals("Ativo")   ){
             txtStatus.setSelectedIndex(0);
-            txtTelefone.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(),3).toString());
+            
 
             
             
         }else{
             txtStatus.setSelectedIndex(1);  
             }
-            txtCpf.setText(jtCliente.getValueAt(jtCliente.getSelectedRow(),4).toString());
+            
             
             
         }
     }
     
+    
+    public void limpaCampos(){
+        txtNome.setText("");
+        txtCpf.setText("");
+        txtTelefone.setText("");
+        txtSenha.setText("");
+        txtLogin.setText("");
+        txtId.setText("");
+    }
     
     public void desabilitaCampos(){
         
@@ -383,6 +424,42 @@ public class ListaCliente extends javax.swing.JDialog {
         
                
     }
+    
+    
+    public String trataCampos(String txt){
+        return txt.replace("(", "").replace(")", "").replace("-", "").replace(".", "").trim();
+    }
+    
+    public boolean verificaCampos(){
+        if (txtNome.getText().equals("") ){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Campos Invalidos", JOptionPane.WARNING_MESSAGE);
+            txtNome.grabFocus();
+            return false;
+        }else if(trataCampos(txtCpf.getText()).equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Campos Invalidos", JOptionPane.WARNING_MESSAGE);
+            txtCpf.grabFocus();
+            return false;
+        }else if(txtLogin.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Campos Invalidos", JOptionPane.WARNING_MESSAGE);
+            txtLogin.grabFocus();
+            return false;
+        }else if(txtSenha.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Campos Invalidos", JOptionPane.WARNING_MESSAGE);
+            txtSenha.grabFocus();
+            return false;
+        }else if(trataCampos(txtTelefone.getText()).equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Campos Invalidos", JOptionPane.WARNING_MESSAGE);
+            txtTelefone.grabFocus();
+            return false;
+        }        
+        else{
+            return true;
+        }
+    }
+    
+    
+    // ======================================================================================================
+    
     
     /**
      * @param args the command line arguments
@@ -428,20 +505,21 @@ public class ListaCliente extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbEditarFunc;
+    private javax.swing.JButton jbEditarCliente;
     private javax.swing.JButton jbPesquisa;
     private javax.swing.JTable jtCliente;
     private javax.swing.JFormattedTextField txtCpf;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPesquisa;
