@@ -53,11 +53,11 @@ public class ListaCliente extends javax.swing.JDialog {
         txtSenha = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JComboBox<>();
-        jbEditarCliente = new javax.swing.JButton();
+        jbEditar = new javax.swing.JButton();
         txtCpf = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
-        txtId = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
@@ -124,7 +124,7 @@ public class ListaCliente extends javax.swing.JDialog {
 
         jLabel2.setText("Login");
 
-        jLabel3.setText("Senha Antiga ou Nova");
+        jLabel3.setText("Senha");
 
         txtSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,10 +136,10 @@ public class ListaCliente extends javax.swing.JDialog {
 
         txtStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
 
-        jbEditarCliente.setText("Salvar Alterações");
-        jbEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+        jbEditar.setText("Salvar Alterações");
+        jbEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEditarClienteActionPerformed(evt);
+                jbEditarActionPerformed(evt);
             }
         });
 
@@ -155,7 +155,7 @@ public class ListaCliente extends javax.swing.JDialog {
             ex.printStackTrace();
         }
 
-        jLabel5.setText("Codigo");
+        jLabel5.setText("ID");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,9 +188,9 @@ public class ListaCliente extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbEditarCliente))
+                                .addComponent(jbEditar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +249,11 @@ public class ListaCliente extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbEditarCliente)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbEditar)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -306,14 +306,10 @@ public class ListaCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
 
-    private void jbEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarClienteActionPerformed
-       
+    private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
         
-        //=====================
-        //=====================
-        //=====================
         
-       if(verificaCampos()){
+        if(verificaCampos()){
            
            Cliente cliente = new Cliente();
            cliente.setNome(txtNome.getText());
@@ -337,8 +333,7 @@ public class ListaCliente extends javax.swing.JDialog {
            
        }
         
-        
-    }//GEN-LAST:event_jbEditarClienteActionPerformed
+    }//GEN-LAST:event_jbEditarActionPerformed
 
     
     public void readTableForDesc(String desc){
@@ -391,7 +386,6 @@ public class ListaCliente extends javax.swing.JDialog {
             
         }
     }
-    
     
     public void limpaCampos(){
         txtNome.setText("");
@@ -457,10 +451,6 @@ public class ListaCliente extends javax.swing.JDialog {
         }
     }
     
-    
-    // ======================================================================================================
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -515,7 +505,7 @@ public class ListaCliente extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbEditarCliente;
+    private javax.swing.JButton jbEditar;
     private javax.swing.JButton jbPesquisa;
     private javax.swing.JTable jtCliente;
     private javax.swing.JFormattedTextField txtCpf;
