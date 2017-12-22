@@ -46,15 +46,15 @@ ENGINE = InnoDB;
 -- Table `biblioteca`.`livros`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `biblioteca`.`livros` (
-  `id_livros` INT NOT NULL AUTO_INCREMENT,
+  `id_livro` INT NOT NULL AUTO_INCREMENT,
   `descricao_livro` VARCHAR(45) NOT NULL,
-  `codigo_livros` VARCHAR(45) NOT NULL,
-  `pag_livros` INT NOT NULL,
+  `codigo_livro` VARCHAR(45) NOT NULL,
+  `pag_livro` INT NOT NULL,
   `status_livro` VARCHAR(15) NOT NULL,
   `setor_id_setor` INT NOT NULL,
-  PRIMARY KEY (`id_livros`),
-  INDEX `fk_livros_setor1_idx` (`setor_id_setor` ASC),
-  CONSTRAINT `fk_livros_setor1`
+  PRIMARY KEY (`id_livro`),
+  INDEX `fk_livro_setor1_idx` (`setor_id_setor` ASC),
+  CONSTRAINT `fk_livro_setor1`
     FOREIGN KEY (`setor_id_setor`)
     REFERENCES `biblioteca`.`setor` (`id_setor`)
     ON DELETE NO ACTION
@@ -70,18 +70,18 @@ CREATE TABLE IF NOT EXISTS `biblioteca`.`emprestimo` (
   `data_inicio_emprestimo` DATE NOT NULL,
   `data_fim_emprestimo` DATE NOT NULL,
   `clientes_id_cliente` INT NOT NULL,
-  `livros_id_livros` INT NOT NULL,
+  `livros_id_livro` INT NOT NULL,
   PRIMARY KEY (`id_emprestimo`),
   INDEX `fk_emprestimo_clientes_idx` (`clientes_id_cliente` ASC),
-  INDEX `fk_emprestimo_livros1_idx` (`livros_id_livros` ASC),
+  INDEX `fk_emprestimo_livro1_idx` (`livro_id_livro` ASC),
   CONSTRAINT `fk_emprestimo_clientes`
     FOREIGN KEY (`clientes_id_cliente`)
     REFERENCES `biblioteca`.`clientes` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_emprestimo_livros1`
-    FOREIGN KEY (`livros_id_livros`)
-    REFERENCES `biblioteca`.`livros` (`id_livros`)
+  CONSTRAINT `fk_emprestimo_livro1`
+    FOREIGN KEY (`livro_id_livro`)
+    REFERENCES `biblioteca`.`livro` (`id_livro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
