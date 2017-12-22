@@ -117,7 +117,9 @@ public class ClienteDAO {
             
         }catch(SQLException ex){
             System.out.println("Erro " + ex);
-        }
+        }finally{
+        ConnectionFactory.closeConnection(con, stmt, rs);
+    }
         
         
         return clientes;
@@ -157,7 +159,9 @@ public class ClienteDAO {
             
         }catch(SQLException ex){
             System.out.println("Erro " + ex);
-        }
+        }finally{
+        ConnectionFactory.closeConnection(con, stmt);
+    }
         
         return result;
     } 

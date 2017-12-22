@@ -5,8 +5,14 @@
  */
 package view;
 
+import com.sun.glass.events.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.bean.Livro;
+import modelo.bean.Setor;
+import modelo.dao.LivroDAO;
+import modelo.dao.SetorDAO;
 
 /**
  *
@@ -19,8 +25,13 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
+        
+        readTable();
     }
 
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,8 +49,8 @@ public class main extends javax.swing.JFrame {
         jbEmprestimo = new javax.swing.JButton();
         jbFinalEmprestimo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtPesquisa = new javax.swing.JTextField();
+        jbPesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtLivros = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -55,6 +66,9 @@ public class main extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Biblioteca");
@@ -149,24 +163,35 @@ public class main extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(720, 379));
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 255));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Pesquisar");
+        txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisaKeyPressed(evt);
+            }
+        });
+
+        jbPesquisar.setBackground(new java.awt.Color(102, 102, 255));
+        jbPesquisar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbPesquisar.setForeground(new java.awt.Color(255, 255, 255));
+        jbPesquisar.setText("Pesquisar");
+        jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPesquisarActionPerformed(evt);
+            }
+        });
 
         jtLivros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo", "Descrição", "Status"
+                "Id", "Codigo", "Descrição", "Status", "Qtd Pag", "Setor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -193,9 +218,9 @@ public class main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jButton1)))
+                        .addComponent(jbPesquisar)))
                 .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
@@ -205,8 +230,8 @@ public class main extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbPesquisar)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
@@ -296,6 +321,26 @@ public class main extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Tags");
+
+        jMenuItem7.setText("Novo");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuItem8.setText("Listar");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu5);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -329,7 +374,17 @@ public class main extends javax.swing.JFrame {
     private void jbEditarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarLivroActionPerformed
         
         if(jtLivros.getSelectedRow() != -1){
-            EditarLivro edLivro = new EditarLivro(this, rootPaneCheckingEnabled);
+            Livro livro = new Livro();
+            livro.setId(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 0).toString()));
+            livro.setCodigo(jtLivros.getValueAt(jtLivros.getSelectedRow(), 1).toString());
+            livro.setDescricao(jtLivros.getValueAt(jtLivros.getSelectedRow(), 2).toString());
+            livro.setStatus(jtLivros.getValueAt(jtLivros.getSelectedRow(), 3).toString());
+            livro.setPag(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 4).toString()));
+            livro.setSetor((Setor)jtLivros.getValueAt(jtLivros.getSelectedRow(), 5));
+
+            
+                   
+            EditarLivro edLivro = new EditarLivro(this, rootPaneCheckingEnabled, livro);
             edLivro.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Selecione um livro!","Livros",JOptionPane.WARNING_MESSAGE);
@@ -364,6 +419,64 @@ public class main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
+        
+        readTableForDesc(txtPesquisa.getText());
+        
+    }//GEN-LAST:event_jbPesquisarActionPerformed
+
+    private void txtPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            readTableForDesc(txtPesquisa.getText());
+        }
+    }//GEN-LAST:event_txtPesquisaKeyPressed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        
+        CadastraSetor cadSetor = new CadastraSetor(this,rootPaneCheckingEnabled);
+        cadSetor.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        ListarSetor listSetor = new ListarSetor(this,rootPaneCheckingEnabled);
+        listSetor.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    // ===========================================================================
+    // codigo
+    
+   
+    
+    public void readTableForDesc(String desc){
+        DefaultTableModel modelo = (DefaultTableModel) jtLivros.getModel();
+        modelo.setNumRows(0);
+        
+        LivroDAO Ldao = new LivroDAO();
+        for(Livro l: Ldao.readForDesc(desc)){
+            modelo.addRow(new Object[]{l.getId(),l.getCodigo(),l.getDescricao(),l.getStatus(),l.getPag(),l.getSetor()});
+        }
+        
+    }
+    
+    public void readTable(){
+        DefaultTableModel modelo = (DefaultTableModel) jtLivros.getModel();
+        modelo.setNumRows(0);
+        
+        LivroDAO Ldao = new LivroDAO();
+        for(Livro l: Ldao.read()){
+            modelo.addRow(new Object[]{l.getId(),l.getCodigo(),l.getDescricao(),l.getStatus(),l.getPag(),l.getSetor()});
+        }
+        
+        
+    }
+    
+    
+    
+    //============================================================================
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -402,12 +515,12 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -415,17 +528,20 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbAddLivro;
     private javax.swing.JButton jbEditarLivro;
     private javax.swing.JButton jbEmprestimo;
     private javax.swing.JMenuItem jbExit;
     private javax.swing.JButton jbFinalEmprestimo;
+    private javax.swing.JButton jbPesquisar;
     private javax.swing.JTable jtLivros;
+    private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
 }
