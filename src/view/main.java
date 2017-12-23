@@ -9,8 +9,10 @@ import com.sun.glass.events.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.bean.Cliente;
 import modelo.bean.Livro;
 import modelo.bean.Setor;
+import modelo.dao.ClienteDAO;
 import modelo.dao.LivroDAO;
 import modelo.dao.SetorDAO;
 
@@ -105,6 +107,11 @@ public class main extends javax.swing.JFrame {
         jbEmprestimo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jbEmprestimo.setForeground(new java.awt.Color(102, 102, 255));
         jbEmprestimo.setText("Novo Emprestimo");
+        jbEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEmprestimoActionPerformed(evt);
+            }
+        });
 
         jbFinalEmprestimo.setBackground(new java.awt.Color(255, 255, 255));
         jbFinalEmprestimo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -386,6 +393,7 @@ public class main extends javax.swing.JFrame {
                    
             EditarLivro edLivro = new EditarLivro(this, rootPaneCheckingEnabled, livro);
             edLivro.setVisible(true);
+            
         }else{
             JOptionPane.showMessageDialog(null, "Selecione um livro!","Livros",JOptionPane.WARNING_MESSAGE);
         }
@@ -442,6 +450,45 @@ public class main extends javax.swing.JFrame {
         ListarSetor listSetor = new ListarSetor(this,rootPaneCheckingEnabled);
         listSetor.setVisible(true);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
+        
+        if(jtLivros.getSelectedRow() != -1){
+            Livro l = new Livro();
+            l.setId(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 0).toString()));
+            l.setCodigo(jtLivros.getValueAt(jtLivros.getSelectedRow(), 1).toString());
+            l.setDescricao(jtLivros.getValueAt(jtLivros.getSelectedRow(), 2).toString());
+            l.setStatus(jtLivros.getValueAt(jtLivros.getSelectedRow(), 3).toString());
+            l.setPag(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 4).toString()));
+            l.setSetor((Setor)jtLivros.getValueAt(jtLivros.getSelectedRow(), 5));
+            
+                        
+            String CPF; 
+            // Pegar cpf do cliente para criar um objeto cliente a partir da consulta no banco
+            CPF = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para o livro " + l.getDescricao());
+            
+            Cliente cliente = new Cliente();
+            ClienteDAO cdao = new ClienteDAO();
+            cliente = cdao.readForCPF(CPF);
+            
+            
+            if(CPF.equals(cliente.getCpf())){
+                
+                CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled);
+                cadEmp.setVisible(true);
+                
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Nao");
+            }
+            
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi");
+        }
+        
+    }//GEN-LAST:event_jbEmprestimoActionPerformed
 
     // ===========================================================================
     // codigo

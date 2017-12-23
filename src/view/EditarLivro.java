@@ -345,9 +345,11 @@ public class EditarLivro extends javax.swing.JDialog {
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                       System.exit(0);
+                        
                     }
                 });
+                
                 dialog.setVisible(true);
             }
         });
@@ -370,4 +372,12 @@ public class EditarLivro extends javax.swing.JDialog {
     private javax.swing.JTextField txtId;
     private javax.swing.JFormattedTextField txtQtd;
     // End of variables declaration//GEN-END:variables
+
+public boolean teste(){
+    return false;
+    // fara retorn em caso de cadastro
+    // codigo a ser feito
+}
+
+
 }

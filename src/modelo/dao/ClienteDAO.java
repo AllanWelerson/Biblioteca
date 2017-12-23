@@ -126,6 +126,45 @@ public class ClienteDAO {
     }
     
     
+    public Cliente readForCPF(String desc){
+                
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String SQL = "SELECT * FROM clientes where cpf_cliente = ?  ";
+        
+        Cliente cliente;
+        cliente = new Cliente();
+        
+        try{
+            
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, desc);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                
+                cliente.setId(rs.getInt("id_cliente"));
+                cliente.setNome(rs.getString("nome_cliente"));
+                cliente.setCpf(rs.getString("cpf_cliente"));
+                cliente.setLogin(rs.getString("login_cliente"));
+                cliente.setSenha(rs.getString("senha_cliente"));
+                cliente.setStatus(rs.getString("status_cliente"));
+                cliente.setTelefone(rs.getString("telefone_cliente"));
+                
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("Erro " + ex);
+        }finally{
+        ConnectionFactory.closeConnection(con, stmt, rs);
+    }
+        
+        
+        return cliente;
+    }
+    
+    
     public boolean update(Cliente cliente){
         
         Connection con = ConnectionFactory.getConnection();
