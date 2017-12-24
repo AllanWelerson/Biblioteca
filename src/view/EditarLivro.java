@@ -20,6 +20,9 @@ public class EditarLivro extends javax.swing.JDialog {
     /**
      * Creates new form CadastrarLivro
      */
+    
+   
+    
     public EditarLivro(java.awt.Frame parent, boolean modal, Livro livro) {
         super(parent, modal);
         initComponents();
@@ -57,6 +60,7 @@ public class EditarLivro extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -119,9 +123,7 @@ public class EditarLivro extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel3)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addGap(212, 212, 212)))
@@ -187,7 +189,7 @@ public class EditarLivro extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -245,7 +247,6 @@ public class EditarLivro extends javax.swing.JDialog {
         LivroDAO Ldao = new LivroDAO();
         if (Ldao.update(l)){
             JOptionPane.showMessageDialog(null, "Livro Alterado com sucesso!", "Cadastro!", JOptionPane.PLAIN_MESSAGE);
-            
             this.dispose();
             
         }else{
@@ -373,11 +374,7 @@ public class EditarLivro extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtQtd;
     // End of variables declaration//GEN-END:variables
 
-public boolean teste(){
-    return false;
-    // fara retorn em caso de cadastro
-    // codigo a ser feito
-}
+
 
 
 }

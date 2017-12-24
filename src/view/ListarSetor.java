@@ -75,6 +75,7 @@ public class ListarSetor extends javax.swing.JDialog {
         txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jtSetor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

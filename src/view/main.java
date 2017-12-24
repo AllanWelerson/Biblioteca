@@ -393,6 +393,7 @@ public class main extends javax.swing.JFrame {
                    
             EditarLivro edLivro = new EditarLivro(this, rootPaneCheckingEnabled, livro);
             edLivro.setVisible(true);
+            readTable();
             
         }else{
             JOptionPane.showMessageDialog(null, "Selecione um livro!","Livros",JOptionPane.WARNING_MESSAGE);
@@ -462,25 +463,41 @@ public class main extends javax.swing.JFrame {
             l.setPag(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 4).toString()));
             l.setSetor((Setor)jtLivros.getValueAt(jtLivros.getSelectedRow(), 5));
             
-                        
-            String CPF; 
-            // Pegar cpf do cliente para criar um objeto cliente a partir da consulta no banco
-            CPF = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para o livro " + l.getDescricao());
-            
-            Cliente cliente = new Cliente();
-            ClienteDAO cdao = new ClienteDAO();
-            cliente = cdao.readForCPF(CPF);
             
             
-            if(CPF.equals(cliente.getCpf())){
-                
-                CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled);
-                cadEmp.setVisible(true);
-                
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Nao");
+            try{            
+             
+                String CPF;   
+
+               // Pegar cpf do cliente para criar um objeto cliente a partir da consulta no banco
+               CPF = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para o livro " + l.getDescricao());
+
+               if(CPF != null){
+                     Cliente cliente = new Cliente();
+                     ClienteDAO cdao = new ClienteDAO();
+                     cliente = cdao.readForCPF(CPF);
+
+                     if(CPF.equals(cliente.getCpf())){
+
+                     CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled);
+                     cadEmp.setVisible(true);
+
+
+                     }else{
+                         JOptionPane.showMessageDialog(null, "Digite algo!");
+                     } 
+               }
+               
+               
+
+            
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Algo deu errado");
             }
+            
+            
+            
+           
             
             
             
