@@ -5,6 +5,17 @@
  */
 package view;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import modelo.bean.Cliente;
+import modelo.bean.Emprestimo;
+import modelo.bean.Livro;
+import modelo.dao.ClienteDAO;
+import modelo.dao.EmprestimoDAO;
+import modelo.dao.LivroDAO;
+
 /**
  *
  * @author allan
@@ -14,9 +25,15 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
     /**
      * Creates new form NewJDialog
      */
-    public CadastraEmprestimo(java.awt.Frame parent, boolean modal) {
+   
+    
+    public CadastraEmprestimo(java.awt.Frame parent, boolean modal, Livro livro, Cliente cliente) {
         super(parent, modal);
         initComponents();
+        
+        moveDados(livro, cliente);
+        Cliente c = cliente;
+        Livro l = livro;
     }
 
     /**
@@ -31,23 +48,26 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtDesc = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtCod = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtPage = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtSetor = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtCpf = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        txtSenha = new javax.swing.JPasswordField();
+        jbEmprestimo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Emprestimo");
         setResizable(false);
+
+        jPanel1.setToolTipText("Emprestimo");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -55,36 +75,41 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
 
         jLabel2.setText("Descrição Livro");
 
-        jTextField1.setEditable(false);
+        txtDesc.setEditable(false);
 
         jLabel3.setText("Codigo");
 
-        jTextField2.setEditable(false);
+        txtCod.setEditable(false);
 
         jLabel4.setText("Pages");
 
-        jTextField3.setEditable(false);
+        txtPage.setEditable(false);
 
         jLabel5.setText("Setor");
 
-        jTextField4.setEditable(false);
+        txtSetor.setEditable(false);
 
         jLabel6.setText("Nome");
 
-        jTextField5.setEditable(false);
+        txtNome.setEditable(false);
 
         jLabel7.setText("CPF");
 
-        jTextField6.setEditable(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        txtCpf.setEditable(false);
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                txtCpfActionPerformed(evt);
             }
         });
 
         jLabel8.setText("Digite a Senha para seguir");
 
-        jButton1.setText("Gerar Emprestimo");
+        jbEmprestimo.setText("Gerar Emprestimo");
+        jbEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEmprestimoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,27 +133,27 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDesc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(40, 40, 40)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel4)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtPage, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(37, 37, 37)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel5)
-                                        .addComponent(jTextField4)))
+                                        .addComponent(txtSetor)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(37, 37, 37)
-                                    .addComponent(jTextField6)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtNome)
+                                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jbEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtCpf))))
                             .addComponent(jLabel2))
                         .addContainerGap(60, Short.MAX_VALUE))))
         );
@@ -140,7 +165,7 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
                 .addGap(33, 33, 33)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -148,23 +173,23 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbEmprestimo))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -189,10 +214,88 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_txtCpfActionPerformed
 
+    private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
+        
+        if(!String.valueOf(txtSenha.getPassword()).toString().equals("")){
+            
+            Cliente c1 = new Cliente();
+            ClienteDAO dao = new ClienteDAO();
+            c1 = dao.readForCPF(txtCpf.getText());
+             
+            
+            if(String.valueOf(txtSenha.getPassword()).toString().equals(c1.getSenha())){
+                JOptionPane.showMessageDialog(null, "ok");
+                
+                // Pegando data atual
+                Date data = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY"); 
+                String dataAtual = format.format(data);
+                // Definindo ddata De Entrega
+                Calendar c = Calendar.getInstance();
+                c.setTime(data);
+                c.add(Calendar.DAY_OF_MONTH, +7);
+                String dataFinal = format.format(c.getTime());
+                
+                Livro l = new Livro();
+                LivroDAO ldao = new LivroDAO();
+                l = (Livro) ldao.readForCodigo(txtCod.getText());
+                
+                Emprestimo e = new Emprestimo();
+                e.setData_inicio(dataAtual);
+                e.setData_fim(dataFinal);
+                e.setCliente(c1);
+                e.setLivro(l);
+                
+                EmprestimoDAO emDao = new EmprestimoDAO();
+                
+                
+                
+                if(emDao.create(e))
+                {
+                   JOptionPane.showMessageDialog(null, "Tudo Certo, Emprestimo Rfetuado!");
+                   this.dispose();
+                }else
+                {
+                    JOptionPane.showMessageDialog(null, "ocorreu algum erro!"); 
+                }
+               
+                
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Senha errada, digite novamente!");
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Digite a senha!");
+        }
+        
+        
+    }//GEN-LAST:event_jbEmprestimoActionPerformed
+
+    
+    
+    
+    
+    // ========================================================= //
+    // code
+    public void moveDados(Livro livro, Cliente cliente){
+        
+        txtDesc.setText(livro.getDescricao());
+        txtCod.setText(livro.getCodigo());
+        txtPage.setText(String.valueOf(livro.getPag()).toString());
+        txtSetor.setText(livro.getSetor().getDescricao());
+        txtNome.setText(cliente.getNome());
+        txtCpf.setText(cliente.getCpf());
+        
+        
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -225,7 +328,11 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CadastraEmprestimo dialog = new CadastraEmprestimo(new javax.swing.JFrame(), true);
+                
+                Livro livro = new Livro();
+                Cliente cliente = new Cliente();
+                
+                CadastraEmprestimo dialog = new CadastraEmprestimo(new javax.swing.JFrame(), true,livro,cliente);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -238,7 +345,6 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -248,12 +354,13 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JButton jbEmprestimo;
+    private javax.swing.JTextField txtCod;
+    private javax.swing.JTextField txtCpf;
+    private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPage;
+    private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtSetor;
     // End of variables declaration//GEN-END:variables
 }

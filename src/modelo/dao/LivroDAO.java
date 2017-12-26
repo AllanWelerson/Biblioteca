@@ -121,7 +121,6 @@ public class LivroDAO {
         
     }
     
-    
     public Livro readForCod(int cod){
         Livro livro = new Livro();
         
@@ -155,6 +154,49 @@ public class LivroDAO {
         
         return livro;
     }
+    
+    
+    public Livro readForCodigo(String cod){
+        Livro livro = new Livro();
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String SQL = "SELECT * FROM livros WHERE codigo_livro = ?";
+        
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, cod);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                livro = new Livro();
+                livro.setId(rs.getInt("id_livro"));
+                livro.setDescricao(rs.getString("descricao_livro"));
+                livro.setCodigo(rs.getString("codigo_livro"));
+                livro.setPag(rs.getInt("pag_livro"));
+                livro.setStatus(rs.getString("status_livro"));
+                livro.setSetor(setorDAO.readForId(rs.getInt("setor_id_setor")));
+                
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("Erro na pesquisa = " + ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        
+        return livro;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public boolean update(Livro livro){

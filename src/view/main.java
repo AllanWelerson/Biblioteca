@@ -10,9 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.bean.Cliente;
+import modelo.bean.Emprestimo;
 import modelo.bean.Livro;
 import modelo.bean.Setor;
 import modelo.dao.ClienteDAO;
+import modelo.dao.EmprestimoDAO;
 import modelo.dao.LivroDAO;
 import modelo.dao.SetorDAO;
 
@@ -117,6 +119,11 @@ public class main extends javax.swing.JFrame {
         jbFinalEmprestimo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jbFinalEmprestimo.setForeground(new java.awt.Color(102, 102, 255));
         jbFinalEmprestimo.setText("Finalizar Emprestimo");
+        jbFinalEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFinalEmprestimoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -464,7 +471,6 @@ public class main extends javax.swing.JFrame {
             l.setSetor((Setor)jtLivros.getValueAt(jtLivros.getSelectedRow(), 5));
             
             
-            
             try{            
              
                 String CPF;   
@@ -479,7 +485,7 @@ public class main extends javax.swing.JFrame {
 
                      if(CPF.equals(cliente.getCpf())){
 
-                     CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled);
+                     CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled,l,cliente);
                      cadEmp.setVisible(true);
 
 
@@ -487,25 +493,48 @@ public class main extends javax.swing.JFrame {
                          JOptionPane.showMessageDialog(null, "Digite algo!");
                      } 
                }
-               
-               
-
-            
+                           
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Algo deu errado");
             }
-            
-            
-            
-           
-            
-            
             
         }else{
             JOptionPane.showMessageDialog(null, "Não foi");
         }
         
     }//GEN-LAST:event_jbEmprestimoActionPerformed
+
+    private void jbFinalEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalEmprestimoActionPerformed
+
+        try{
+            String codLivro = JOptionPane.showInputDialog(null, "Digite o Codigo do livro ","Devolver livro");
+            
+            if(codLivro != null){
+             
+                int cod = Integer.parseInt(codLivro);
+                Emprestimo em = new Emprestimo();
+                em.setStatus("inativo");
+                
+                Livro l = new Livro();
+                l.setId(cod);
+                em.setLivro(l);
+                                 
+                EmprestimoDAO daoEmp = new EmprestimoDAO();
+                              
+                if(daoEmp.fimEmprestimo(em)){
+                JOptionPane.showMessageDialog(null, "Finalizado com sucesso" + em);
+            }else{
+                 JOptionPane.showMessageDialog(null, "Erro ao atualizar + e");   
+                }
+            }           
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Digite o codigo correto!" + e);
+        }
+                
+        
+        
+    }//GEN-LAST:event_jbFinalEmprestimoActionPerformed
 
     // ===========================================================================
     // codigo
