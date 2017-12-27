@@ -14,7 +14,7 @@ import modelo.bean.Livro;
 public class EmprestimoDAO {
  
     
-    public boolean create(Emprestimo emprestimo){
+    public boolean create(Emprestimo emprestimo, Livro l){
         
         Connection con = new ConnectionFactory().getConnection();
         PreparedStatement stmt = null;
@@ -31,6 +31,11 @@ public class EmprestimoDAO {
             stmt.setString(2, emprestimo.getData_fim_sql());
             stmt.setInt(3, emprestimo.getCliente().getId());
             stmt.setInt(4, emprestimo.getLivro().getId());
+            
+            LivroDAO ldao = new LivroDAO();
+            l.setStatus("emprestado");
+            ldao.update(l);
+                        
             stmt.executeUpdate();
             check = true;
             
@@ -70,7 +75,9 @@ public class EmprestimoDAO {
                 Livro l = new Livro();
                 LivroDAO ldao = new LivroDAO();
                 l = ldao.readForCod(rs.getInt("livros_id_livros"));
-                em.setLivro(l);        
+                em.setLivro(l);   
+                
+                em.setStatus(rs.getString("status_emprestimo"));
                 
                 emprestimos.add(em);
             }
@@ -210,7 +217,7 @@ public class EmprestimoDAO {
         PreparedStatement stmt = null;
         String SQL = "UPDATE emprestimo SET "
                 + " status_emprestimo = ?"
-                + " WHERE id_emprestimo = ?";               
+                + " WHERE livros_id_livros = ?";               
         boolean check = false;
         
         try{

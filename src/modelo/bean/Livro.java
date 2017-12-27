@@ -68,6 +68,13 @@ public class Livro {
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
+
+    @Override
+    public String toString() {
+        return this.descricao;
+    }
+    
+    
     
     
 }

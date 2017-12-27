@@ -228,7 +228,7 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
              
             
             if(String.valueOf(txtSenha.getPassword()).toString().equals(c1.getSenha())){
-                JOptionPane.showMessageDialog(null, "ok");
+                
                 
                 // Pegando data atual
                 Date data = new Date();
@@ -254,9 +254,9 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
                 
                 
                 
-                if(emDao.create(e))
+                if(emDao.create(e,l))
                 {
-                   JOptionPane.showMessageDialog(null, "Tudo Certo, Emprestimo Rfetuado!");
+                   JOptionPane.showMessageDialog(null, "Emprestimo efetuado!");
                    this.dispose();
                 }else
                 {

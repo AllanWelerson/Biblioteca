@@ -212,6 +212,11 @@ public class main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtLivros.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtLivrosKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtLivros);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -228,7 +233,7 @@ public class main extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(290, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -275,6 +280,11 @@ public class main extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem1.setText("About");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jbExit.setText("Exit");
@@ -291,6 +301,11 @@ public class main extends javax.swing.JFrame {
         jMenu2.setText("Emprestimos");
 
         jMenuItem2.setText("Listar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -461,7 +476,14 @@ public class main extends javax.swing.JFrame {
 
     private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
         
+        
         if(jtLivros.getSelectedRow() != -1){
+            
+            String status = jtLivros.getValueAt(jtLivros.getSelectedRow(),3).toString();
+            if(status.equals("ativo") || status.equals("Ativo")){
+            
+            
+            
             Livro l = new Livro();
             l.setId(Integer.parseInt(jtLivros.getValueAt(jtLivros.getSelectedRow(), 0).toString()));
             l.setCodigo(jtLivros.getValueAt(jtLivros.getSelectedRow(), 1).toString());
@@ -487,7 +509,7 @@ public class main extends javax.swing.JFrame {
 
                      CadastraEmprestimo cadEmp = new CadastraEmprestimo(this, rootPaneCheckingEnabled,l,cliente);
                      cadEmp.setVisible(true);
-
+                     readTable();
 
                      }else{
                          JOptionPane.showMessageDialog(null, "Digite algo!");
@@ -498,8 +520,16 @@ public class main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Algo deu errado");
             }
             
+            
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi");
+                JOptionPane.showMessageDialog(null, "Esse livro não esta ativo!");
+                }
+            
+            
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Escolha um livro");
         }
         
     }//GEN-LAST:event_jbEmprestimoActionPerformed
@@ -507,22 +537,29 @@ public class main extends javax.swing.JFrame {
     private void jbFinalEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalEmprestimoActionPerformed
 
         try{
-            String codLivro = JOptionPane.showInputDialog(null, "Digite o Codigo do livro ","Devolver livro");
+            String codLivro = JOptionPane.showInputDialog(null, "Digite o Codigo do livro ","Codigo livro");
             
             if(codLivro != null){
              
-                int cod = Integer.parseInt(codLivro);
+                LivroDAO ldao = new LivroDAO();
+                EmprestimoDAO daoEmp = new EmprestimoDAO();
+                
+                //int cod = Integer.parseInt(codLivro);
                 Emprestimo em = new Emprestimo();
-                em.setStatus("inativo");
                 
                 Livro l = new Livro();
-                l.setId(cod);
+                l = ldao.readForCodigo(codLivro);               
                 em.setLivro(l);
-                                 
-                EmprestimoDAO daoEmp = new EmprestimoDAO();
+                                                   
+                
+                
+                em = daoEmp.readForLivro(l.getId());
+                em.setStatus("inativo");
                               
-                if(daoEmp.fimEmprestimo(em)){
-                JOptionPane.showMessageDialog(null, "Finalizado com sucesso" + em);
+                
+                if(ldao.fimEmprestimoLivro(l, em)){
+                JOptionPane.showMessageDialog(null, "Finalizado com sucesso");
+                readTable();
             }else{
                  JOptionPane.showMessageDialog(null, "Erro ao atualizar + e");   
                 }
@@ -535,6 +572,24 @@ public class main extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jbFinalEmprestimoActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+        ListaEmprestimo listaEmp = new ListaEmprestimo(this, rootPaneCheckingEnabled);
+        listaEmp.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jtLivrosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtLivrosKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtLivrosKeyPressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+         Sobre sobre = new Sobre(this, rootPaneCheckingEnabled);
+         sobre.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // ===========================================================================
     // codigo

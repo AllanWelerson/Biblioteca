@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import modelo.bean.Emprestimo;
 import modelo.bean.Livro;
 import modelo.bean.Setor;
 
@@ -33,6 +34,9 @@ public class LivroDAO {
             stmt.setInt(3, l.getPag());
             stmt.setString(4, l.getStatus());
             stmt.setInt(5, l.getSetor().getId());
+            
+          
+            
             stmt.executeUpdate();
             
             check = true;
@@ -82,6 +86,42 @@ public class LivroDAO {
     }
     
     
+    
+    public List<Livro> readAtivo(){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String SQL = "SELECT * FROM livros WHERE status_livro = 'ativo' ";
+        
+        List<Livro> livros = new ArrayList<>();
+        
+        try{
+            
+            stmt = con.prepareStatement(SQL);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                Livro livro = new Livro();
+                livro.setId(rs.getInt("id_livro"));
+                livro.setDescricao(rs.getString("descricao_livro"));
+                livro.setCodigo(rs.getString("codigo_livro"));
+                livro.setPag(rs.getInt("pag_livro"));
+                livro.setStatus(rs.getString("status_livro"));                
+                livro.setSetor(setorDAO.readForId(rs.getInt("setor_id_Setor")));      
+                livros.add(livro);
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("Erro = " + ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return livros;
+        
+    }
+    
+    
     public List<Livro> readForDesc(String desc){
         
         Connection con = ConnectionFactory.getConnection();
@@ -89,6 +129,47 @@ public class LivroDAO {
         ResultSet rs = null;
         boolean check = false;
         String SQL = "SELECT * FROM livros WHERE descricao_livro LIKE ? or codigo_livro = ?";
+        
+        List<Livro> livros = new ArrayList<>();
+        
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, "%" + desc + "%");
+            stmt.setString(2, desc);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+            Livro livro = new Livro();
+            livro.setId(rs.getInt("id_livro"));
+            livro.setDescricao(rs.getString("descricao_livro"));
+            livro.setCodigo(rs.getString("codigo_livro"));
+            livro.setPag(rs.getInt("pag_livro"));
+            livro.setStatus(rs.getString("status_livro"));
+            livro.setSetor(setorDAO.readForId(rs.getInt("setor_id_setor")));
+            
+            livros.add(livro);
+            }
+                  
+            
+        }catch(SQLException ex){
+            System.out.println("Erro na pesquisa " + ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return livros;
+        
+    }
+    
+    
+    public List<Livro> readForDescAtivo(String desc){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean check = false;
+        String SQL = "SELECT * FROM livros WHERE status_livro = 'ativo' and descricao_livro LIKE ? "
+                + " or status_livro = 'ativo' and codigo_livro = ?";
         
         List<Livro> livros = new ArrayList<>();
         
@@ -190,14 +271,7 @@ public class LivroDAO {
         return livro;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+        
     
     public boolean update(Livro livro){
         Connection con = ConnectionFactory.getConnection();
@@ -234,6 +308,40 @@ public class LivroDAO {
         return check;
         
         
+    }
+    
+    
+    public boolean fimEmprestimoLivro(Livro l, Emprestimo em){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        String SQL = "UPDATE livros SET "
+                + " status_livro = 'ativo'"
+                + " WHERE codigo_livro = ? ";
+        boolean check = false;
+        
+        try{
+            
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, l.getCodigo());
+            
+            EmprestimoDAO emdao = new EmprestimoDAO();
+            emdao.fimEmprestimo(em);
+            
+            stmt.executeUpdate();
+            check = true;
+            
+            
+        }catch(SQLException e){
+            System.out.println("Erro = " + e);
+            
+            
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+        
+        
+        return check;
     }
     
     
