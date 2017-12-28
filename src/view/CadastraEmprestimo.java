@@ -234,7 +234,7 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
                 Date data = new Date();
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY"); 
                 String dataAtual = format.format(data);
-                // Definindo ddata De Entrega
+                // Definindo data De Entrega
                 Calendar c = Calendar.getInstance();
                 c.setTime(data);
                 c.add(Calendar.DAY_OF_MONTH, +7);

@@ -6,6 +6,11 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +34,7 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
-        
+        verificaEmprestimos();
         readTable();
     }
 
@@ -594,6 +599,52 @@ public class main extends javax.swing.JFrame {
     // ===========================================================================
     // codigo
     
+    
+    public void verificaEmprestimos() {
+        
+        EmprestimoDAO emDao = new EmprestimoDAO();
+        
+        for(Emprestimo em: emDao.read("ativo")){
+           try { 
+            Date data = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            String dataString = format.format(data);
+            Date dataAtual;
+            
+            dataAtual = new Date(format.parse(dataString).getTime());
+            
+            
+            String dataEm = em.getData_fim();
+            
+            String day = dataEm.substring(0,2);
+            String month = dataEm.substring(3,5);
+            String year = dataEm.substring(6);
+            
+            String dataFimString = year + month + day;
+            
+            Date dataFim = new Date(format.parse(dataFimString).getTime());
+            
+            if(dataAtual.after(dataFim)){
+                setVencido(em);
+                
+                
+            }
+            
+            } catch (ParseException ex) {
+                System.out.println("erro" + ex);
+            }
+            
+        }
+        
+        
+    }
+    
+    public void setVencido(Emprestimo em){
+        em.setStatus("vencido");
+        
+        EmprestimoDAO emDao = new EmprestimoDAO();
+        emDao.vencido(em);
+    }
    
     
     public void readTableForDesc(String desc){

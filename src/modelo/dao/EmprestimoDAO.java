@@ -93,6 +93,53 @@ public class EmprestimoDAO {
     }
     
     
+    public List<Emprestimo> read(String status){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String SQL = "SELECT * FROM emprestimo WHERE status_emprestimo = ?";
+                
+        
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, status);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                Emprestimo em = new Emprestimo();
+                em.setId_emprestimo(rs.getInt("id_emprestimo"));
+                em.setData_inicio_fromSql(rs.getString("data_inicio_emprestimo"));
+                em.setData_fim_fromSql(rs.getString("data_fim_emprestimo"));
+                //cliente
+                Cliente c = new Cliente();
+                ClienteDAO cdao = new ClienteDAO();
+                c = cdao.readForId(rs.getInt("clientes_id_cliente"));
+                em.setCliente(c);
+                //livro
+                Livro l = new Livro();
+                LivroDAO ldao = new LivroDAO();
+                l = ldao.readForCod(rs.getInt("livros_id_livros"));
+                em.setLivro(l);   
+                
+                em.setStatus(rs.getString("status_emprestimo"));
+                
+                emprestimos.add(em);
+                
+            }
+            
+            
+        }catch(SQLException e){
+            System.out.println("Erro = " + e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return emprestimos;
+    }
+    
+    
+    
     
     public Emprestimo readForLivro(int id_livro){
         
@@ -212,6 +259,32 @@ public class EmprestimoDAO {
     }
     
     public boolean fimEmprestimo(Emprestimo em){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        String SQL = "UPDATE emprestimo SET "
+                + " status_emprestimo = ?"
+                + " WHERE livros_id_livros = ?";               
+        boolean check = false;
+        
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, em.getStatus());
+            stmt.setInt(2, em.getLivro().getId());
+            stmt.executeUpdate();
+            check = true;
+        }catch(SQLException e){
+            System.out.println("Erro = " + e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+        
+        
+        return check;
+    }
+    
+    
+    public boolean vencido(Emprestimo em){
         
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
