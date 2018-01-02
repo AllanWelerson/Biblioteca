@@ -54,7 +54,7 @@ public class EmprestimoDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String SQL = "SELECT * FROM emprestimo";
+        String SQL = "SELECT * FROM emprestimo order by id_emprestimo desc";
                 
         List<Emprestimo> emprestimos = new ArrayList<>();
         

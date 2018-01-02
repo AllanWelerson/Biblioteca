@@ -104,6 +104,8 @@ public class CadastraEmprestimo extends javax.swing.JDialog {
 
         jLabel8.setText("Digite a Senha para seguir");
 
+        jbEmprestimo.setBackground(new java.awt.Color(102, 102, 255));
+        jbEmprestimo.setForeground(new java.awt.Color(255, 255, 255));
         jbEmprestimo.setText("Gerar Emprestimo");
         jbEmprestimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
