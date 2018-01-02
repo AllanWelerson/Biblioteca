@@ -6,6 +6,9 @@
 package view;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.bean.Funcionario;
+import modelo.dao.FuncionarioDAO;
 
 /**
  *
@@ -19,6 +22,7 @@ public class ListaFuncionario extends javax.swing.JDialog {
     public ListaFuncionario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        readTable();
         desabilitaCampos();
     }
 
@@ -39,9 +43,11 @@ public class ListaFuncionario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         txtLogin = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtStatus = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jbEditarFunc = new javax.swing.JButton();
+        txtSenha = new javax.swing.JPasswordField();
+        txtId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
@@ -60,7 +66,7 @@ public class ListaFuncionario extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Nome", "Login", "Status"
+                "Id", "Nome", "Login"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -71,13 +77,18 @@ public class ListaFuncionario extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        jTableFunc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableFuncMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableFunc);
 
         jLabel6.setText("Nome");
 
         jLabel7.setText("Login");
 
-        jLabel8.setText("Status");
+        jLabel8.setText("Senha");
 
         jbEditarFunc.setBackground(new java.awt.Color(102, 102, 255));
         jbEditarFunc.setForeground(new java.awt.Color(255, 255, 255));
@@ -88,26 +99,35 @@ public class ListaFuncionario extends javax.swing.JDialog {
             }
         });
 
+        txtId.setEditable(false);
+
+        jLabel2.setText("id");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbEditarFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(57, 57, 57)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbEditarFunc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -135,13 +155,16 @@ public class ListaFuncionario extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbEditarFunc)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
 
@@ -160,24 +183,76 @@ public class ListaFuncionario extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
+    
     private void jbEditarFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarFuncActionPerformed
         
         
-        if(jTableFunc.getSelectedRow() != -1){
-            habilitaCampos();
+       if(!txtNome.getText().equals("") && !txtLogin.getText().equals("") && !txtSenha.getText().equals("")){
+        
+        Funcionario func = new Funcionario();
+        FuncionarioDAO fdao = new FuncionarioDAO();
+        
+        // setando novos valores
+        func.setId(Integer.parseInt(txtId.getText()));
+        func.setLogin(txtLogin.getText());
+        func.setNome(txtNome.getText());
+        func.setSenha(String.valueOf(txtSenha.getPassword()));
+                   
+        if(fdao.checkUpdate(func)){
+                   
+            if(fdao.update(func)){
+                JOptionPane.showMessageDialog(null, "Funcionario atualizado com sucesso!");
+                readTable();
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro no cadastro!");
+            }
+            
+        
+        
         }else{
-            JOptionPane.showMessageDialog(null, "Funcionario não selecionado", "Editar Funcionario", JOptionPane.WARNING_MESSAGE);
-          }
+            JOptionPane.showMessageDialog(null, "Funcionario já cadastrado!");
+        }
+        
+        }else{
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+        }
         
     }//GEN-LAST:event_jbEditarFuncActionPerformed
 
+    private void jTableFuncMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFuncMouseClicked
+        if(jTableFunc.getSelectedRow() != -1){
+           habilitaCampos();
+            
+            txtId.setText(jTableFunc.getValueAt(jTableFunc.getSelectedRow(),0).toString());
+            txtNome.setText(jTableFunc.getValueAt(jTableFunc.getSelectedRow(),1).toString());
+            txtLogin.setText(jTableFunc.getValueAt(jTableFunc.getSelectedRow(),2).toString());
+        }
+    }//GEN-LAST:event_jTableFuncMouseClicked
+
+    
+    public void readTable(){
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTableFunc.getModel();
+        modelo.setNumRows(0);
+        
+        FuncionarioDAO dao = new FuncionarioDAO();
+        
+        for(Funcionario f: dao.read() ){
+            modelo.addRow(new Object[]{f.getId(),f.getNome(),f.getLogin()});
+        }
+        
+    }
     
     
     public void desabilitaCampos(){
         
         txtNome.setEnabled(false);
         txtLogin.setEnabled(false);
-        txtStatus.setEnabled(false);
+        txtSenha.setEnabled(false);
+        
         
     }
     
@@ -185,7 +260,18 @@ public class ListaFuncionario extends javax.swing.JDialog {
        
         txtNome.setEnabled(true);
         txtLogin.setEnabled(true);
-        txtStatus.setEnabled(true); 
+        txtSenha.setEnabled(true);
+       
+               
+    }
+    
+    public void limpaCampos(){
+       
+        txtNome.setText("");
+        txtLogin.setText("");
+        txtSenha.setText("");
+        txtId.setText("");
+       
                
     }
     
@@ -234,6 +320,7 @@ public class ListaFuncionario extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -241,8 +328,9 @@ public class ListaFuncionario extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableFunc;
     private javax.swing.JButton jbEditarFunc;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtStatus;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

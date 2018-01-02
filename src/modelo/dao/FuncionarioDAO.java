@@ -114,6 +114,73 @@ public class FuncionarioDAO {
         
     }
     
+   public boolean check(Funcionario func){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null; 
+        String SQL = "SELECT * FROM funcionario WHERE login_funcionario = ?";
+        boolean check = true;
+        
+        Funcionario f = new Funcionario();
+        
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, func.getLogin());
+            
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                check = false;
+                
+            }
+            
+            
+            
+        }catch(SQLException e){
+            System.out.println("Erro = " + e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check;
+        
+    }
+   
+   
+   public boolean checkUpdate(Funcionario func){
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null; 
+        String SQL = "SELECT * FROM funcionario WHERE login_funcionario = ? and id_funcionario != ?";
+        boolean check = true;
+        
+        Funcionario f = new Funcionario();
+        
+        try{
+            stmt = con.prepareStatement(SQL);
+            stmt.setString(1, func.getLogin());
+            stmt.setInt(2, func.getId());
+            
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                check = false;
+                
+            }
+            
+            
+            
+        }catch(SQLException e){
+            System.out.println("Erro = " + e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return check;
+        
+    }
     
     public boolean update(Funcionario f){
         
