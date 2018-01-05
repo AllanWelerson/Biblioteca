@@ -1,14 +1,13 @@
-# Sistema de Biblioteca
+Sistema de Biblioteca
+**Sistema de Biblioteca**
+
+Sistema simples para pequenas bibliotecas feito com fins de estudo
+
+* Cadastro e Manutenção de Livros
+* Cadastro e Manutenção de Emprestimos
+* Cadastro e Manutenção de Clientes/Leitores
+* Geração de Carterinhas (em melhora)
+* Cadastro e Manutenção de Funcionarios
+* Login (em melhora)
 
 
-Sistema simples para pequenas bibliotecas, com os seguintes servi�os
-
--cadastro de clientes(leitores)
--cadastro de livros
--cadastro de funcionarios
--emprestimos de livros
--gera��o de carteirinhas
-
-#Tecnologias
-- Java Swing
-- mysql

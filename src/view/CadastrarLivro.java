@@ -188,6 +188,7 @@ public class CadastrarLivro extends javax.swing.JDialog {
             livro.setDescricao(txtDesc.getText());
             livro.setCodigo((String)trataCampos(txtCodigo.getText()));
             livro.setPag(Integer.parseInt(trataCampos(txtQtd.getText())));
+            
             livro.setStatus((String)jcStatus.getSelectedItem());
             livro.setSetor((Setor)jcSetor.getSelectedItem() );
             
@@ -215,7 +216,7 @@ public class CadastrarLivro extends javax.swing.JDialog {
     
     
     private String trataCampos(String txt){
-        return txt.replace(",", "").replace(".", "").replace("(","").replace(")","").replace( "(10)", "").trim();
+        return txt.replace(",", "").replace("(10)", "").replace(".", "").replace("(","").replace(")","").trim();
     }
     
     private boolean verificaCampos(){

@@ -51,7 +51,7 @@ public class Sobre extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SI Biblioteca");
 
-        jLabel2.setText("Versão : 0.1.0");
+        jLabel2.setText("Versão : 0.8.0");
 
         jLabel3.setText("Produzido por : ");
 

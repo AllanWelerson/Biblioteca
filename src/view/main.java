@@ -404,6 +404,7 @@ public class main extends javax.swing.JFrame {
         
         CadastrarLivro cadLivro = new CadastrarLivro(this, rootPaneCheckingEnabled);
         cadLivro.setVisible(true);
+        readTable();
                
     }//GEN-LAST:event_jbAddLivroActionPerformed
 
