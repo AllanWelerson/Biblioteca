@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import modelo.bean.Funcionario;
 import modelo.dao.FuncionarioDAO;
@@ -66,6 +67,17 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Senha");
 
+        txtSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSenhaActionPerformed(evt);
+            }
+        });
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -119,6 +131,13 @@ public class Login extends javax.swing.JFrame {
 
     private void jbLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLogarActionPerformed
         
+        logar();
+        
+        
+    }//GEN-LAST:event_jbLogarActionPerformed
+
+    
+    private void logar(){
         
         if(!txtLogin.getText().equals("") && !txtSenha.getText().equals("")){
         Funcionario f = new Funcionario();
@@ -149,7 +168,18 @@ public class Login extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Login Invalido, Campos em branco!"); 
         }
         
-    }//GEN-LAST:event_jbLogarActionPerformed
+    }
+    
+    
+    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
+       logar();
+    }//GEN-LAST:event_txtSenhaActionPerformed
+
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+      if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+          
+      }
+    }//GEN-LAST:event_txtSenhaKeyPressed
 
     /**
      * @param args the command line arguments

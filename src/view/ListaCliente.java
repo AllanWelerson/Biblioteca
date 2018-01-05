@@ -5,7 +5,12 @@
  */
 package view;
 
+import com.itextpdf.text.DocumentException;
 import com.sun.glass.events.KeyEvent;
+import functions.GerarCarterinha;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.bean.Cliente;
@@ -58,6 +63,7 @@ public class ListaCliente extends javax.swing.JDialog {
         txtTelefone = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        jbGerarC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Livro");
@@ -116,6 +122,8 @@ public class ListaCliente extends javax.swing.JDialog {
             }
         });
 
+        jbPesquisa.setBackground(new java.awt.Color(102, 102, 255));
+        jbPesquisa.setForeground(new java.awt.Color(255, 255, 255));
         jbPesquisa.setText("Pesquisar");
         jbPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,6 +168,15 @@ public class ListaCliente extends javax.swing.JDialog {
 
         jLabel5.setText("ID");
 
+        jbGerarC.setBackground(new java.awt.Color(255, 255, 255));
+        jbGerarC.setForeground(new java.awt.Color(102, 102, 255));
+        jbGerarC.setText("Gerar Carteirinha");
+        jbGerarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGerarCActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,6 +207,8 @@ public class ListaCliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbGerarC, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
                                 .addComponent(jbEditar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -258,7 +277,8 @@ public class ListaCliente extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbEditar)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbGerarC))
                 .addContainerGap())
         );
 
@@ -338,6 +358,35 @@ public class ListaCliente extends javax.swing.JDialog {
        }
         
     }//GEN-LAST:event_jbEditarActionPerformed
+
+    private void jbGerarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGerarCActionPerformed
+       
+        
+         if(jtCliente.getSelectedRow() != -1){
+             
+            Cliente c = new Cliente();
+            ClienteDAO dao = new ClienteDAO();
+            c = dao.readForId(Integer.parseInt(txtId.getText()));
+
+            GerarCarterinha gerar = new GerarCarterinha();
+
+            String txt = "pdf/cart"+ c.getId() +".pdf";
+
+            try {
+                gerar.gerar(c, txt);
+            } catch (DocumentException | IOException ex) {
+                System.err.println("erro " + ex);
+                JOptionPane.showMessageDialog(null, "Erro ao gerar pdf, tente novamente");
+            }
+        
+        
+        
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um cliente");
+        }   
+        
+        
+    }//GEN-LAST:event_jbGerarCActionPerformed
 
     
     public void readTableForDesc(String desc){
@@ -510,6 +559,7 @@ public class ListaCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbEditar;
+    private javax.swing.JButton jbGerarC;
     private javax.swing.JButton jbPesquisa;
     private javax.swing.JTable jtCliente;
     private javax.swing.JFormattedTextField txtCpf;

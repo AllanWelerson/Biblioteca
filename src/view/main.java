@@ -6,6 +6,7 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +37,7 @@ public class main extends javax.swing.JFrame {
         initComponents();
         verificaEmprestimos();
         readTable();
+        limpaPastaPdf();
     }
 
     
@@ -667,6 +669,24 @@ public class main extends javax.swing.JFrame {
             modelo.addRow(new Object[]{l.getId(),l.getCodigo(),l.getDescricao(),l.getStatus(),l.getPag(),l.getSetor()});
         }
         
+        
+    }
+    
+    
+    public void limpaPastaPdf(){
+       
+       
+        
+        File folder = new File("pdf");
+        if(folder.isDirectory()){
+            File[] sun = folder.listFiles();
+            for(File toDelete : sun){
+                toDelete.delete();
+            }
+            
+        }
+        
+         
         
     }
     

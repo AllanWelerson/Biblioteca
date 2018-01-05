@@ -80,6 +80,8 @@
                               <Group type="102" attributes="0">
                                   <Component id="txtId" min="-2" pref="72" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jbGerarC" min="-2" pref="146" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                                   <Component id="jbEditar" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
@@ -170,6 +172,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jbEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtId" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbGerarC" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -274,6 +277,12 @@
         </Component>
         <Component class="javax.swing.JButton" name="jbPesquisa">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Pesquisar"/>
           </Properties>
           <Events>
@@ -349,6 +358,20 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtId">
+        </Component>
+        <Component class="javax.swing.JButton" name="jbGerarC">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Gerar Carteirinha"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbGerarCActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
