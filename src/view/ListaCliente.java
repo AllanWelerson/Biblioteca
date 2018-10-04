@@ -5,6 +5,7 @@
  */
 package view;
 
+
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ import com.itextpdf.text.DocumentException;
 
 
 import functions.GerarCarterinha;
+
 import modelo.bean.Cliente;
 import modelo.dao.ClienteDAO;
 

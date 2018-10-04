@@ -146,8 +146,10 @@ public class Login extends javax.swing.JFrame {
         
         
         f = fdao.readUm(f);
+
         System.out.println(f.getLogin() + " - " + f.getSenha());
         if(f.getNome() != null){
+
         
         if(String.valueOf(txtSenha.getPassword()).toString().equals(f.getSenha())){
             JOptionPane.showMessageDialog(null, "Bem Vindo " + f.getNome());
